@@ -1,12 +1,17 @@
 package com.example.spring_Seccurity.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.spring_Seccurity.service.StudentService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
+
+    private final StudentService studentService;
+
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping("/welcome")
     public String visit(){
@@ -16,5 +21,11 @@ public class StudentController {
     @GetMapping("/hello")
     public String hello(){
         return "hello Student";
+    }
+
+    @PostMapping("/add/username/{username}/password/{password}")
+    public String addStudent(@PathVariable("username") String username, @PathVariable("password") String password){
+        studentService.addStudent(username, password);
+        return  "student added successfully";
     }
 }
